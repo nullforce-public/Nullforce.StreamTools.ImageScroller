@@ -1,0 +1,79 @@
+﻿@page "/"
+@using System.IO; 
+
+<div class="image-list">
+    @foreach (var img in images)
+    {
+        <div class="image-card @moveClass">
+            <div class="image-wrap">
+                <img src="@img" />
+            </div>
+            <div class="image-text">@Path.GetFileNameWithoutExtension(img)</div>
+        </div>
+    }
+    @if (string.IsNullOrEmpty(moveClass))
+    {
+        <div class="image-card fade-in">
+            <div class="image-wrap">
+                <img src="@newImage" />
+            </div>
+            <div class="image-text">@Path.GetFileNameWithoutExtension(newImage)</div>
+        </div>
+    }
+</div>
+
+<style>
+.image-list {
+    display: flex;
+    flex-direction: row-reverse;
+    position: absolute;
+    height: @ListMaxHeightPx;
+}
+
+.image-card {
+    align-items: center;
+    margin: 10px;
+    min-width: @MaxWidthPx;
+}
+
+.image-wrap {
+    display: grid;
+    min-height: @MaxHeightPx;
+}
+
+.image-card img {
+    align-self: center;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: @MaxHeightPx;
+    max-width: @MaxWidthPx;
+}
+
+.image-text {
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    overflow: hidden;
+    max-width: @MaxWidthPx;
+}
+
+.move-me {
+    display: inline-block;
+    position: relative;
+    animation: move-in-steps 1s;
+}
+
+.fade-in {
+    animation: fade-in-steps 1s;
+}
+
+@@keyframes move-in-steps {
+    0%   { left: 0; }
+    100% { left: @MovementPx; }
+}
+
+@@keyframes fade-in-steps {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+}
+</style>
